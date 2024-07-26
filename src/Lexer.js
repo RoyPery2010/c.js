@@ -6,7 +6,10 @@ class Lexer {
     this.tokenTypes = [
       // TODO: lexer crashes when putting decimal. could fix regex?
       { type: "number", regex: /^\d+/ },
-      { type: "binaryOperator", regex: /^[+\-*/]/ },
+      { type: "plusToken", regex: /^\+/},
+      { type: "minusToken", regex: /^\-/},
+      { type: "timesToken", regex: /^\*/},
+      { type: "divideToken", regex: /^\//},
       { type: "whitespace", regex: /^\s+/ },
     ];
   };
@@ -41,6 +44,12 @@ class Lexer {
         return;
       }
       
+    }
+    this.tokens.push(new Token("endOfFileToken", "\0"));
+    for (let tokenIndex = 0; tokenIndex < this.tokens.length; tokenIndex++) {
+      if (this.tokens[tokenIndex].tokenType === "whitespace") {
+        this.tokens.splice(tokenIndex, 1);
+      }
     }
     console.log(this.tokens);
     return this.tokens;

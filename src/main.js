@@ -1,5 +1,6 @@
 const readline = require("readline");
 const { Lexer } = require("./Lexer");
+const { Parser } = require("./Parser")
 
 async function getStdin() {  
     const rl = readline.createInterface({
@@ -41,7 +42,13 @@ async function main() {
           } // add more commands
       
           let lexer = new Lexer(input);
-          lexer.tokenize()
+          let tokens = lexer.tokenize()
+          if (showTokens) {
+            console.log(tokens);
+          }
+          let parser = new Parser(tokens);
+          let ast = parser.parse();
+          console.log(ast);
           }
         }
 main()
